@@ -1,0 +1,32 @@
+{
+  "name": "travel-agency-frontend",
+  "private": true,
+  "engines": {
+    "node": ">=18 <=20",
+    "npm": ">=9 <=10"
+  },
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000"
+  },
+  "dependencies": {
+    "@netlify/plugin-nextjs": "^5.8.0",
+    "@heroicons/react": "^2.2.0",
+    "autoprefixer": "^10.4.20",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^0.542.0",
+    "mapbox-gl": "^3.14.0",
+    "next": "^14.2.32",
+    "next-auth": "^4.24.11",
+    "next-themes": "^0.4.6",
+    "postcss": "^8.4.41",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-map-gl": "^8.0.4",
+    "swr": "^2.2.5"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.9"
+  }
+}

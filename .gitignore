@@ -1,0 +1,29 @@
+# Node
+node_modules
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Next.js
+.next
+out
+
+# Misc
+.DS_Store
+Thumbs.db
+
+# Local envs
+frontend/.next
+backend/.env
+frontend/.env.local
+
+# Keep example env files
+!.env.example
+!**/.env.example
+!frontend/.env.local.example
+
