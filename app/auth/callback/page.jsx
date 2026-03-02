@@ -13,6 +13,7 @@ function AuthCallbackInner() {
 
   useEffect(() => {
     const token = searchParams.get("token");
+    console.log('callback params:', Object.fromEntries(searchParams.entries()));
     
     if (token) {
       // Store the token and redirect
@@ -44,7 +45,11 @@ function AuthCallbackInner() {
         }, 2000);
       });
     } else {
+      const entries = Object.fromEntries(searchParams.entries());
+      console.warn('no token, params:', entries);
       setStatus("No token received. Redirecting...");
+      // expose params for debugging (rendered below)
+      setMessage(JSON.stringify(entries));
       setTimeout(() => {
         router.push("/");
       }, 2000);
