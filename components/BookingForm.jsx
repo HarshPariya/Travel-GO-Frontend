@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { getApiUrl } from '../lib/config';
+import { tokenManager } from '../lib/auth';
 
 export default function BookingForm({ tourId, tourTitle, price, initialDate }) {
   const [form, setForm] = useState({
@@ -131,6 +132,15 @@ export default function BookingForm({ tourId, tourTitle, price, initialDate }) {
     e.preventDefault();
     setStatus('submitting');
     setMessage('');
+
+    // ensure user is logged in before booking
+    const token = tokenManager.getToken();
+    if (!token) {
+      // redirect them to login page on frontend
+      window.location.href = '/auth';
+      return;
+    }
+
     try {
       if (tourId && tourId.startsWith('fallback-')) {
         await new Promise((r) => setTimeout(r, 600));
@@ -142,7 +152,10 @@ export default function BookingForm({ tourId, tourTitle, price, initialDate }) {
 
       const res = await fetch(getApiUrl('/bookings'), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ 
           tourId, 
           ...form,
@@ -155,7 +168,8 @@ export default function BookingForm({ tourId, tourTitle, price, initialDate }) {
         }
         throw new Error('Failed to submit booking. Please check your details and try again.');
       }
-      const ref = `TGO-${Date.now().toString().slice(-6)}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
+      const data = await res.json();
+      const ref = data.booking?.reference || `TGO-${Date.now().toString().slice(-6)}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
       setOrderRef(ref);
       setStatus('success');
       setMessage("🎉 Booking request received! We'll contact you within 24 hours to confirm your reservation.");

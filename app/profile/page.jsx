@@ -270,6 +270,11 @@ export default function ProfilePage() {
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                               {booking.tour?.title || "Tour"}
                             </h3>
+                            {booking.reference && (
+                              <p className="text-sm text-gray-500 dark:text-gray-400">
+                                Ref: {booking.reference}
+                              </p>
+                            )}
                             <div className="flex items-center space-x-4 mt-2 text-sm text-gray-600 dark:text-gray-400">
                               <span className="flex items-center">
                                 <MapPin className="w-4 h-4 mr-1" />
@@ -284,6 +289,11 @@ export default function ProfilePage() {
                                 {booking.travelers} travelers
                               </span>
                             </div>
+                            {booking.guestDetails && booking.guestDetails.length > 0 && (
+                              <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                <strong>Guests:</strong> {booking.guestDetails.map((g, i) => g.name || "").join(", ")}
+                              </div>
+                            )}
                           </div>
                           <div className="text-right">
                             <p className="text-lg font-bold text-gray-900 dark:text-white">

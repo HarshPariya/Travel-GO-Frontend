@@ -5,6 +5,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'source.unsplash.com' },
       { protocol: 'https', hostname: 'plus.unsplash.com' }, // ✅ added
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com' }, // allow Google avatars
     ],
   },
   async rewrites() {

@@ -1,13 +1,26 @@
+"use client";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import ToursGrid from '../components/ToursGrid';
 import Hero from '../components/Hero';
 import FeatureIcons from '../components/FeatureIcons';
 import CTA from '../components/CTA';
+import { tokenManager } from '../lib/auth';
 
 export const dynamic = 'force-dynamic';
 
 export default function HomePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // if no token, redirect to login page
+    if (!tokenManager.getToken()) {
+      router.replace('/auth');
+    }
+  }, [router]);
+
   return (
     <div>
       <Hero />
