@@ -163,10 +163,24 @@ export default function BookingForm({ tourId, tourTitle, price, initialDate }) {
         }),
       });
       if (!res.ok) {
-        if (res.status === 0 || res.status >= 500) {
-          throw new Error('Our booking system is temporarily unavailable. Please try again later or contact us directly.');
+        // attempt to read a message from the server; if that fails, fall
+        // back to the generic text.
+        let errMsg = 'Failed to submit booking. Please check your details and try again.';
+        try {
+          const errData = await res.json();
+          if (errData && errData.message) {
+            errMsg = errData.message;
+          }
+        } catch (_e) {
+          // ignore parse failure
         }
-        throw new Error('Failed to submit booking. Please check your details and try again.');
+        if (res.status === 0 || res.status >= 500) {
+          // network/server problem
+          errMsg =
+            errMsg ||
+            'Our booking system is temporarily unavailable. Please try again later or contact us directly.';
+        }
+        throw new Error(errMsg);
       }
       const data = await res.json();
       const ref = data.booking?.reference || `TGO-${Date.now().toString().slice(-6)}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
